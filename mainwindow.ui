@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>702</width>
-    <height>455</height>
+    <width>757</width>
+    <height>483</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,18 +17,18 @@
    <widget class="QTableView" name="tableView">
     <property name="geometry">
      <rect>
-      <x>370</x>
-      <y>40</y>
-      <width>321</width>
-      <height>351</height>
+      <x>380</x>
+      <y>60</y>
+      <width>371</width>
+      <height>361</height>
      </rect>
     </property>
    </widget>
    <widget class="QPushButton" name="go">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>330</y>
+      <x>130</x>
+      <y>370</y>
       <width>121</width>
       <height>51</height>
      </rect>
@@ -40,8 +40,8 @@
    <widget class="QPushButton" name="download">
     <property name="geometry">
      <rect>
-      <x>370</x>
-      <y>10</y>
+      <x>540</x>
+      <y>20</y>
       <width>80</width>
       <height>25</height>
      </rect>
@@ -55,18 +55,18 @@
      <rect>
       <x>10</x>
       <y>90</y>
-      <width>351</width>
-      <height>80</height>
+      <width>361</width>
+      <height>131</height>
      </rect>
     </property>
     <property name="title">
-     <string>Выбор файла</string>
+     <string>Выбор входной файл</string>
     </property>
     <widget class="QLineEdit" name="table_name">
      <property name="geometry">
       <rect>
-       <x>190</x>
-       <y>50</y>
+       <x>200</x>
+       <y>40</y>
        <width>151</width>
        <height>25</height>
       </rect>
@@ -75,20 +75,20 @@
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
-       <x>210</x>
-       <y>30</y>
+       <x>100</x>
+       <y>40</y>
        <width>131</width>
        <height>21</height>
       </rect>
      </property>
      <property name="text">
-      <string>Input a table name</string>
+      <string>Имя таблицы:</string>
      </property>
     </widget>
     <widget class="QPushButton" name="choose_file">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>10</x>
        <y>40</y>
        <width>80</width>
        <height>25</height>
@@ -98,18 +98,31 @@
       <string>Choose file</string>
      </property>
     </widget>
+    <widget class="QLabel" name="path_label_in">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>80</y>
+       <width>341</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>351</width>
+      <width>361</width>
       <height>61</height>
      </rect>
     </property>
     <property name="title">
-     <string>Выбор направления конвектирования</string>
+     <string>Выберите направление конвектирования</string>
     </property>
     <widget class="QRadioButton" name="csv_sql">
      <property name="geometry">
@@ -127,7 +140,7 @@
     <widget class="QRadioButton" name="sql_csv">
      <property name="geometry">
       <rect>
-       <x>180</x>
+       <x>160</x>
        <y>30</y>
        <width>96</width>
        <height>23</height>
@@ -142,18 +155,18 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>190</y>
-      <width>351</width>
-      <height>121</height>
+      <y>230</y>
+      <width>361</width>
+      <height>131</height>
      </rect>
     </property>
     <property name="title">
-     <string>GroupBox</string>
+     <string>Выберите результирующий файл</string>
     </property>
     <widget class="QPushButton" name="path">
      <property name="geometry">
       <rect>
-       <x>130</x>
+       <x>10</x>
        <y>30</y>
        <width>80</width>
        <height>25</height>
@@ -167,13 +180,36 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>60</y>
-       <width>331</width>
+       <y>70</y>
+       <width>341</width>
        <height>51</height>
       </rect>
      </property>
      <property name="text">
       <string/>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="table_name_out">
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>30</y>
+       <width>151</width>
+       <height>25</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>30</y>
+       <width>131</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Имя таблицы:</string>
      </property>
     </widget>
    </widget>
@@ -183,7 +219,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>702</width>
+     <width>757</width>
      <height>22</height>
     </rect>
    </property>

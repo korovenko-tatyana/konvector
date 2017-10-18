@@ -10,10 +10,11 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 //Раскоментировать и проверить видимость в порядке мледования, для удобство отладки закоменчено
- /*  ui->groupBox_4->hide();
+   ui->groupBox_4->hide();
    ui->download->hide();
    ui->go->hide();
-   ui->groupBox_2->hide();*/
+   ui->groupBox_2->hide();
+//   ui->path_label_2->hide();
    connect (ui->csv_sql, SIGNAL(clicked(bool)), this, SLOT(choose_napr1(bool)));
    connect (ui->sql_csv, SIGNAL(clicked(bool)), this, SLOT(choose_napr2(bool)));
    connect (ui->choose_file, SIGNAL(clicked(bool)), this, SLOT(choose_file_click()));
@@ -33,6 +34,10 @@ void MainWindow::choose_napr1(bool checked){
     {
         napr=1;
         ui->groupBox_4->show();
+        ui->label->hide();
+        ui->table_name->hide();
+        ui->label_2->show();
+        ui->table_name_out->show();
     }
 }
 void MainWindow::choose_napr2(bool checked){
@@ -40,14 +45,21 @@ void MainWindow::choose_napr2(bool checked){
     {
         napr=-1;
         ui->groupBox_4->show();
+        ui->label->show();
+        ui->table_name->show();
+        ui->label_2->hide();
+        ui->table_name_out->hide();
     }
-}
+    }
+  //  if(napr==1){ui->label_2->show();ui->table_name_out->show();}{ui->label_2->hide();ui->table_name_out->hide();}
+
 
 int MainWindow::get_napr() {return napr;}
 //QString MainWindow::get_file_name(){return file_name_load;}
 
 void MainWindow::path_click(){
      ui->go->show();
+   // ui->groupBox_2->show();
     QString filename=//QFileDialog::getOpenFileName(this, tr("Save File"),"","");
     QFileDialog::getSaveFileName(this,
                                 QString::fromUtf8("Сохранить файл"),
@@ -93,6 +105,8 @@ void MainWindow::choose_file_click(){
         }
         file.close();
     }
+       // ui->path_label_in
+         ui->path_label_in->setText(filename);
     file_name_load=filename;
     //table.filename=...
 }
