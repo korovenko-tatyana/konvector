@@ -3,17 +3,18 @@
 #include <QDialog>
 #include <QFileDialog>
 #include <QMessageBox>
-
+#include <QDebug>
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 //Раскоментировать и проверить видимость в порядке мледования, для удобство отладки закоменчено
-   ui->groupBox_4->hide();
+ /*  ui->groupBox_4->hide();
    ui->download->hide();
    ui->go->hide();
-   ui->groupBox_2->hide();
+   ui->groupBox_2->hide();*/
+ //  ui->go->
 //   ui->path_label_2->hide();
    connect (ui->csv_sql, SIGNAL(clicked(bool)), this, SLOT(choose_napr1(bool)));
    connect (ui->sql_csv, SIGNAL(clicked(bool)), this, SLOT(choose_napr2(bool)));
@@ -72,18 +73,18 @@ void MainWindow::path_click(){
             return;
         }else*/
         {
-            if(napr==1){
+      /*      if(napr==1){
             //   if( filename.indexOf(".db")==-1)
                    if(!filename.contains(".db"))
                 filename+=".db";}
-            else {
+            else {*/
             if(!filename.contains(".csv"))
               // if(filename.indexOf(".csv")==-1)
                 filename+=".csv";}
             ui->path_label->setText(filename);
             file_name_out=filename;
           //  file.close();
-        }
+        //}
     }
 
 }
@@ -132,6 +133,12 @@ void MainWindow::download_click(){
         case -1:
 //download from sql
               //load_to_view();
+            //opred table_name
+         table_name_from=  ui->table_name->text();
+        // qDebug()<<table_name_from;
+         if(table_name_from==""){QMessageBox::critical(this,tr("Error"),tr("Not a table name")); break;}
+table.load_from_sql(file_name_load,table_name_from);
+ load_to_view();
 
             break;
         default:
@@ -142,6 +149,16 @@ void MainWindow::download_click(){
 }
 
 void MainWindow::go_click(){
+    if (file_name_load=="")
+    {
+        QMessageBox::critical(this,tr("Error"),tr("Not a file name to open"));
+        return;
+    }
+    if (file_name_out=="")
+    {
+        QMessageBox::critical(this,tr("Error"),tr("Not a file name to save"));
+        return;
+    }
     switch (napr) {
     case 1: //in sql
 //download from csv
@@ -170,9 +187,10 @@ load_to_view();}
         break;
     }
 
-    table.load_from_csv(file_name_load);
+    table.load_from_sql(file_name_load, table_name_from);
+//    table.load_from_csv(file_name_load);
     table.opred_data_type();
-    table.output_in_csv(file_name_out); //delete
+ //   table.output_in_csv(file_name_out); //delete
     load_to_view();
 
 }

@@ -40,6 +40,10 @@ QList<QList<QString>> get_data();
 int get_row();
 int get_col();
 
+void load_from_sql(QString filename, QString table_name);
+void out_to_sql(QString filename, QString table_name);
+int comparator(QList<QList<QString>> data11);
+
 };
 
 #endif // BDDATA_H

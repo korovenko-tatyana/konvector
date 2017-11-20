@@ -26,7 +26,7 @@ QString file_name_out;
 BDData table;
 QStandardItemModel *model;
 QStandardItem *item;
-
+QString table_name_from;
 
 public:
     explicit MainWindow(QWidget *parent = 0);

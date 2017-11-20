@@ -6,6 +6,10 @@
 #include <QTextStream>
 #include <QDebug>
 
+#include <QtSql>
+#include <QSqlRecord>
+#include <QFile>
+
 /*BDData::BDData()
 {
 
@@ -49,7 +53,7 @@ void BDData::load_from_csv(QString file_name1){
     if(cols!=0){ cols=0;rows=0; data1.clear();column_name.clear();type_data.clear();
  }
     {
-        file_name1="/home/student/qt_project/convec/basa.csv";
+  //      file_name1="/home/student/qt_project/convec/basa.csv";
     QFile file(file_name1);
 
        if (!file.open(QIODevice::ReadOnly))
@@ -100,8 +104,8 @@ void BDData::output_in_csv(QString filename){
    /* QString name="";
     for (int i=0;i<cols;i++)
     name+=column_name[i];*/
-    filename="/home/student/qt_project/convec/basa_out.csv"; //delete
-    QFile file(filename); //заменить на filename
+   // filename="/home/student/qt_project/convec/basa_out.csv"; //delete
+    QFile file(filename);
     if (file.open(QIODevice::WriteOnly))
     {
         QTextStream text_stream(&file);
@@ -153,7 +157,7 @@ for(int i=0;i<cols;i++)
    // else if(type_data[i]!="TEXT") type_data[i]="INTEGER";
 }
 }
-qDebug()<<temp;
+//qDebug()<<temp;
 qDebug()<<type_data;
 }
 
@@ -172,3 +176,78 @@ int BDData::get_row(){
 int BDData::get_col(){
     return cols;
 }
+
+
+
+
+
+
+
+void BDData::load_from_sql(QString filename, QString table_name){
+    filename="/home/student/qt_project/convec/basa_sql";
+    table_name="table1";
+
+    if (!QFile::exists(filename)){qDebug()<<"not a database file"; return;}
+
+    QSqlDatabase sdb = QSqlDatabase::addDatabase("QSQLITE");
+       sdb.setDatabaseName(filename);
+
+       if (!sdb.open()) {
+           qDebug() << "Ошибка: " + sdb.lastError().text();
+           return;
+       }
+
+       QSqlRecord columns = sdb.record(table_name);
+
+           if (columns.isEmpty()) {
+               qDebug() << "Нет таблицы " + table_name;
+               return;
+           }
+
+           //clearTable();
+           if(cols!=0){ cols=0;rows=0; data1.clear();column_name.clear();type_data.clear();
+        }
+
+           int j;
+           emit beginInsertColumns(QModelIndex(), 0, columns.count()-1);
+               for(j = 0; j < columns.count(); j++)
+                  // header << columns.fieldName(j);
+               column_name.append(columns.fieldName(j));
+               emit endInsertColumns();
+               qDebug()<<column_name;
+               cols=columns.count();
+
+         /*      QSqlQuery rowcount("SELECT count(*) FROM " + table_name);
+                  rowcount.first();
+                  rowcount.exec("SELECT count(*) FROM " + table_name);
+                 qDebug()<<cols<<":cols    rows:"<< rowcount.value(0).toInt();
+              rows=rowcount.value(0).toInt();*/
+
+              QList<QString> temp;
+                  QSqlQuery query("SELECT * FROM " + table_name);
+                  emit beginInsertRows(QModelIndex(), 0, rows-1);
+                  while (query.next()) {
+                    //  rows << QStringList();
+                      for(j = 0; j < cols; j++)
+                     //      rows.last() << query.value(j).toString();
+                         temp.append(query.value(j).toString());
+              //     qDebug()<<temp;
+                      data1.append(temp); temp.clear(); rows++;
+                  }
+                  emit endInsertRows();
+                  return ;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
