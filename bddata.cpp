@@ -184,8 +184,8 @@ int BDData::get_col(){
 
 
 void BDData::load_from_sql(QString filename, QString table_name){
-    filename="/home/student/qt_project/convec/basa_sql";
-    table_name="table1";
+  //  filename="/home/student/qt_project/convec/basa_sql";
+ //   table_name="table1";
 
     if (!QFile::exists(filename)){qDebug()<<"not a database file"; return;}
 
@@ -211,7 +211,6 @@ void BDData::load_from_sql(QString filename, QString table_name){
            int j;
            emit beginInsertColumns(QModelIndex(), 0, columns.count()-1);
                for(j = 0; j < columns.count(); j++)
-                  // header << columns.fieldName(j);
                column_name.append(columns.fieldName(j));
                emit endInsertColumns();
                qDebug()<<column_name;
@@ -235,10 +234,66 @@ void BDData::load_from_sql(QString filename, QString table_name){
                       data1.append(temp); temp.clear(); rows++;
                   }
                   emit endInsertRows();
+                  sdb.close();
                   return ;
 }
 
+void BDData::out_to_sql(QString filename, QString table_name){
+  //  filename="/home/student/qt_project/convec/basa_sql_out";
+   // table_name="table2";
 
+    if (!QFile::exists(filename)){qDebug()<<"not a database file"; return;}
+
+    QSqlDatabase sdb = QSqlDatabase::addDatabase("QSQLITE");
+       sdb.setDatabaseName(filename);
+
+       if (!sdb.open()) {
+           qDebug() << "Ошибка: " + sdb.lastError().text();
+           return;
+       }
+       QSqlRecord columns = sdb.record(table_name);
+
+           if (columns.isEmpty()) { //create table if not it
+              // qDebug() << "Нет таблицы " + table_name;
+               QSqlQuery query;
+               QString tem1="";
+               QString t=", ";
+               for(int i=0;i<cols;i++){
+                   if(i==cols-1)t="";
+                   tem1+="'"+column_name[i]+"' "+type_data[i]+t;}
+                   if(!query.exec( "CREATE TABLE '" +table_name+ "' ("+tem1+  " )") )
+                   { //error of create
+                       qDebug() << "DataBase: error of create " ;
+                       qDebug() << query.lastError().text();
+                       return;
+                   }
+           }
+
+           //comparator if table is, her column different or not and her content;
+
+           //zapic data
+           QString qq="INSERT INTO '"+table_name+"' VALUES ";
+           for(int i=0;i<rows;i++){
+               QString tem;
+               tem="";
+               QList<QString> temp;
+                  temp=data1[i];
+               for(int j=0; j<cols;j++){
+
+                     if(type_data[j]=="TEXT")
+                   tem+="'"+temp[j]+"'";
+                    else tem+=temp[j];
+                     if(j<cols-1)tem+=", ";
+               }
+             if(i<rows-1)  qq+="("+tem+"), ";else qq+="("+tem+")";
+           }
+              QSqlQuery qqq;
+           if(!qqq.exec(qq)){ qDebug() << "DataBase: error of input data ";
+               qDebug() << qqq.lastError().text();
+               }
+           sdb.close();
+
+}
 
 
 

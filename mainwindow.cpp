@@ -14,7 +14,8 @@ MainWindow::MainWindow(QWidget *parent) :
    ui->download->hide();
    ui->go->hide();
    ui->groupBox_2->hide();*/
- //  ui->go->
+   ui->go->setEnabled(false);
+   ui->download->setEnabled(false);
 //   ui->path_label_2->hide();
    connect (ui->csv_sql, SIGNAL(clicked(bool)), this, SLOT(choose_napr1(bool)));
    connect (ui->sql_csv, SIGNAL(clicked(bool)), this, SLOT(choose_napr2(bool)));
@@ -34,22 +35,32 @@ void MainWindow::choose_napr1(bool checked){
     if (checked)
     {
         napr=1;
-        ui->groupBox_4->show();
-        ui->label->hide();
-        ui->table_name->hide();
-        ui->label_2->show();
-        ui->table_name_out->show();
+      //  ui->groupBox_4->show();
+       // ui->label->hide();
+        ui->label->setEnabled(false);
+       // ui->table_name->hide();
+        ui->table_name->setEnabled(false);
+       // ui->label_2->show();
+       // ui->table_name_out->show();
+        ui->label_2->setEnabled(true);
+        ui->table_name_out->setEnabled(true);
+        table_name_from="";
     }
 }
 void MainWindow::choose_napr2(bool checked){
     if (checked)
     {
         napr=-1;
-        ui->groupBox_4->show();
-        ui->label->show();
-        ui->table_name->show();
-        ui->label_2->hide();
-        ui->table_name_out->hide();
+       // ui->groupBox_4->show();
+       // ui->label->show();
+        ui->label->setEnabled(true);
+        ui->table_name->setEnabled(true);
+     //  ui->table_name->show();
+      //  ui->label_2->hide();
+       // ui->table_name_out->hide();
+        ui->label_2->setEnabled(false);
+        ui->table_name_out->setEnabled(false);
+          table_name_from="";
     }
     }
   //  if(napr==1){ui->label_2->show();ui->table_name_out->show();}{ui->label_2->hide();ui->table_name_out->hide();}
@@ -59,7 +70,9 @@ int MainWindow::get_napr() {return napr;}
 //QString MainWindow::get_file_name(){return file_name_load;}
 
 void MainWindow::path_click(){
-     ui->go->show();
+    // ui->go->show();
+     ui->go->setEnabled(true);
+
    // ui->groupBox_2->show();
     QString filename=//QFileDialog::getOpenFileName(this, tr("Save File"),"","");
     QFileDialog::getSaveFileName(this,
@@ -72,15 +85,16 @@ void MainWindow::path_click(){
             QMessageBox::critical(this,tr("Error"),tr("Could not open file"));
             return;
         }else*/
-        {
+
       /*      if(napr==1){
             //   if( filename.indexOf(".db")==-1)
                    if(!filename.contains(".db"))
                 filename+=".db";}
             else {*/
+            if(napr==-1)
             if(!filename.contains(".csv"))
-              // if(filename.indexOf(".csv")==-1)
-                filename+=".csv";}
+
+                filename+=".csv";
             ui->path_label->setText(filename);
             file_name_out=filename;
           //  file.close();
@@ -90,9 +104,9 @@ void MainWindow::path_click(){
 }
 
 void MainWindow::choose_file_click(){
-    ui->download->show();
-    ui->groupBox_2->show();
-
+  //  ui->download->show();
+  //  ui->groupBox_2->show();
+ui->download->setEnabled(true);
     QString filename=QFileDialog::getOpenFileName(this, tr("Open File"),"","");
    // QDebug(filename);
   //  if(filename !="")
@@ -148,6 +162,7 @@ table.load_from_sql(file_name_load,table_name_from);
     }
 }
 
+
 void MainWindow::go_click(){
     if (file_name_load=="")
     {
@@ -162,37 +177,37 @@ void MainWindow::go_click(){
     switch (napr) {
     case 1: //in sql
 //download from csv
-   /*     if(file_name_load!=""){
-          table.load_from_csv(file_name_load);
-load_to_view();}
-//раскоментрировать
-        else  {QMessageBox::critical(this,tr("Error"),tr("Not a file name to open")); return;}
-          if(file_name_out!="")
-             // load to sql
-           else  {QMessageBox::critical(this,tr("Error"),tr("Not a file name to save")); return;}
 
-*/
+//раскоментрировать
+
+         table_name_from=  ui->table_name_out->text();
+         if(table_name_from==""){QMessageBox::critical(this,tr("Error"),tr("Not a table name")); break;}
+table.load_from_csv(file_name_load);
+table.opred_data_type();
+load_to_view();
+//table.out_to_sql(file_name_out,table_name_from);
+table.out_to_sql("/home/student/qt_project/convec/basa_sql_out",table_name_from);
         break;
+
     case -1: //in csv
-      /*   if(file_name_load!=""){//download from sql+proverka na name table
-        load_to_view();}
-              else  {QMessageBox::critical(this,tr("Error"),tr("Not a file name from resourse")); return;}
-          if(file_name_out!="")
-             table.output_in_csv(file_name_out);
-           else  {QMessageBox::critical(this,tr("Error"),tr("Not a file name to save")); return;}
-        */
+table_name_from=  ui->table_name->text();
+         if(table_name_from==""){QMessageBox::critical(this,tr("Error"),tr("Not a table name")); break;}
+      table.load_from_sql(file_name_load, table_name_from);
+        load_to_view();
+        table.opred_data_type();
+        table.output_in_csv(file_name_out);
         break;
     default:
-     //   QMessageBox::critical(this,tr("Error"),tr("Not a napravlenie")); return;
+        QMessageBox::critical(this,tr("Error"),tr("Not a napravlenie")); return;
         break;
     }
 
-    table.load_from_sql(file_name_load, table_name_from);
+ /*   table.load_from_sql(file_name_load, table_name_from);
 //    table.load_from_csv(file_name_load);
     table.opred_data_type();
  //   table.output_in_csv(file_name_out); //delete
     load_to_view();
-
+table.out_to_sql(file_name_out,table_name_from);*/
 }
 
 
