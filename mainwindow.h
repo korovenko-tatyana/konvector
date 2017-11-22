@@ -9,6 +9,7 @@
 #include <QStandardItemModel>
 
 namespace Ui {
+
 class MainWindow;
 }
 
@@ -21,29 +22,48 @@ private:
 int napr=0;
 bool set_label=0;
 //TableData table1;
-QString file_name_load;
-QString file_name_out;
+QString file_name_load; ///путь к файлу импорта
+QString file_name_out; ///путь к файлу экспорта
 BDData table;
 QStandardItemModel *model;
 QStandardItem *item;
-QString table_name_from;
+QString table_name_from; ///имя таблицы для базы
 
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 int get_napr();
 //QString get_file_name();
+/**
+ * @brief load_to_view вывод таблицы на экран
+ */
 void load_to_view();
 
 private slots:
-  //  void slot_sh();
+
+/**
+ * @brief choose_napr1 если нажата первая радио кнопка
+ * @param checked
+ */
 void choose_napr1(bool checked);
 void choose_napr2(bool);
+/**
+ * @brief choose_file_click нажатие на выбор файла экспорта
+ */
 void choose_file_click();
+/**
+ * @brief go_click начать
+ */
 void go_click();
+/**
+ * @brief path_click нажатие на выбор файла для сохранения
+ */
 void path_click();
+/**
+ * @brief download_click для отображение таблицы на экран без конвертации
+ */
 void download_click();
-//void sel_label(); //??? need?
+
 };
 
 #endif // MAINWINDOW_H

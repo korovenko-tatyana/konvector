@@ -178,14 +178,10 @@ int BDData::get_col(){
 }
 
 
-
-
-
-
-
 void BDData::load_from_sql(QString filename, QString table_name){
   //  filename="/home/student/qt_project/convec/basa_sql";
  //   table_name="table1";
+
 
     if (!QFile::exists(filename)){qDebug()<<"not a database file"; return;}
 
@@ -201,6 +197,20 @@ void BDData::load_from_sql(QString filename, QString table_name){
 
            if (columns.isEmpty()) {
                qDebug() << "Нет таблицы " + table_name;
+           /*    QMessageBox* pmbx =
+                                   new QMessageBox("MessageBox",
+                                   "<b>A</b> <i>Simple</i>   <u>Message</u>",
+                                   QMessageBox::Information,
+                                   QMessageBox::Yes,
+                                   QMessageBox::No,
+                                   QMessageBox::Cancel | QMessageBox::Escape);
+               int n = pmbx->exec();
+               delete pmbx;
+               if (n == QMessageBox::Yes)
+               {
+                 //Нажата кнопка Yes
+               }
+               */
                return;
            }
 
@@ -242,6 +252,7 @@ void BDData::out_to_sql(QString filename, QString table_name){
   //  filename="/home/student/qt_project/convec/basa_sql_out";
    // table_name="table2";
 
+
     if (!QFile::exists(filename)){qDebug()<<"not a database file"; return;}
 
     QSqlDatabase sdb = QSqlDatabase::addDatabase("QSQLITE");
@@ -254,8 +265,9 @@ void BDData::out_to_sql(QString filename, QString table_name){
        QSqlRecord columns = sdb.record(table_name);
 
            if (columns.isEmpty()) { //create table if not it
+               create_table(table_name);
               // qDebug() << "Нет таблицы " + table_name;
-               QSqlQuery query;
+          /*     QSqlQuery query;
                QString tem1="";
                QString t=", ";
                for(int i=0;i<cols;i++){
@@ -266,10 +278,76 @@ void BDData::out_to_sql(QString filename, QString table_name){
                        qDebug() << "DataBase: error of create " ;
                        qDebug() << query.lastError().text();
                        return;
-                   }
+                   }*/
            }
+                   else
+                   {
+                       //table is
+                      // вызов
+               int t=comparator(sdb,table_name);
+               switch (t) {
+               case 1:{
+                   QMessageBox* pmbx =
+                                       new QMessageBox("MessageBox",
+                                       "Таблица существует. данные не совпадают. Перезаписать?",
+                                       QMessageBox::Information,
+                                       QMessageBox::Yes,
+                                       QMessageBox::No,
+                                       QMessageBox::Cancel | QMessageBox::Escape);
+                   int n1 = pmbx->exec();
+                   delete pmbx;
+                   if (n1 == QMessageBox::Yes)
+                   {
+                     //Нажата кнопка Yes
+                       //delete
+                       QSqlQuery query1;
+                       if(!query1.exec( "DELETE FROM '" +table_name+"'") )
+                       { //error of create
+                           qDebug() << "DataBase: error of delete data" ;
+                           qDebug() << query1.lastError().text();
+                           return;
+                       }
+                    create_table(table_name);
+                    break;
+                   } else return;
+               }
+               case 0:
+               {
+                   QMessageBox* pmbx1 =
+                                       new QMessageBox("MessageBox",
+                                       "Таблица существует. данные не совпадают. Перезаписать?",
+                                       QMessageBox::Information,
+                                       QMessageBox::Yes,
+                                       QMessageBox::No,
+                                       QMessageBox::Cancel | QMessageBox::Escape);
+                   int n = pmbx1->exec();
+                   delete pmbx1;
+                   if (n == QMessageBox::Yes)
+                   {
+                     //Нажата кнопка Yes
+                        QSqlQuery query2;
+                        if(!query2.exec( "DROP TABLE '" +table_name+"'") )
+                        { //error of create
+                            qDebug() << "DataBase: error of delete table" ;
+                            qDebug() << query2.lastError().text();
+                            return;
+                        }
+                       //delete
+                       create_table(table_name);
+                       break;
+                   } else return;
+}
+               case -1:{
+                   return;}
+               default:
+                   break;
+               }
 
-           //comparator if table is, her column different or not and her content;
+
+                   }
+
+
+
 
            //zapic data
            QString qq="INSERT INTO '"+table_name+"' VALUES ";
@@ -296,10 +374,60 @@ void BDData::out_to_sql(QString filename, QString table_name){
 }
 
 
+void BDData::create_table(QString table_name){
+    QSqlQuery query;
+    QString tem1="";
+    QString t=", ";
+    for(int i=0;i<cols;i++){
+        if(i==cols-1)t="";
+        tem1+="'"+column_name[i]+"' "+type_data[i]+t;}
+        if(!query.exec( "CREATE TABLE '" +table_name+ "' ("+tem1+  " )") )
+        { //error of create
+            qDebug() << "DataBase: error of create " ;
+            qDebug() << query.lastError().text();
+            return;
+        }
+}
 
 
+int BDData::comparator(QSqlDatabase sdb,QString table_name)
+{
+    //sravn tables names
+    int j;
+      QSqlRecord columns = sdb.record(table_name);
+   // QList<QString> column_name1;
+    emit beginInsertColumns(QModelIndex(), 0, columns.count()-1);
+    if (cols!=columns.count()) return 0; //columns is ddifferent
+        for(j = 0; j < columns.count(); j++){
+        //column_name1.append(columns.fieldName(j));
+        if(column_name[j]!=columns.fieldName(j)) return 0;
+        }
+        emit endInsertColumns();
 
 
+        //colums same
+        QList<QString> temp;
+            QSqlQuery query("SELECT * FROM " + table_name);
+            emit beginInsertRows(QModelIndex(), 0, rows-1);
+            int i=0;
+            while (query.next()) {
+              //  rows << QStringList();
+                temp=data1[i];
+                for(j = 0; j < cols; j++){
+               //      rows.last() << query.value(j).toString();
+                 if(temp[j]!=query.value(j).toString()) return 1;
+                   //temp.append(query.value(j).toString());
+
+                }
+        //     qDebug()<<temp;
+                data1.append(temp); temp.clear();  i++;
+                if (i>rows)return 1; //data is different
+            }
+            emit endInsertRows();
+
+
+            return -1; //the same
+}
 
 
 

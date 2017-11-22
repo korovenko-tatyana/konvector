@@ -69,16 +69,16 @@ void MainWindow::choose_napr2(bool checked){
 int MainWindow::get_napr() {return napr;}
 //QString MainWindow::get_file_name(){return file_name_load;}
 
-void MainWindow::path_click(){
+void MainWindow::path_click(){ //choose 2 in
     // ui->go->show();
      ui->go->setEnabled(true);
 
    // ui->groupBox_2->show();
-    QString filename=//QFileDialog::getOpenFileName(this, tr("Save File"),"","");
-    QFileDialog::getSaveFileName(this,
+    QString filename=QFileDialog::getOpenFileName(this, tr("Save File"),"","");
+  /*  QFileDialog::getSaveFileName(this,
                                 QString::fromUtf8("Сохранить файл"),
                                 QDir::currentPath(),
-                                "Fiels (*.db *.csv);;All files (*.*)");
+                                "Fiels (*.db *.csv);;All files (*.*)");*/
     if (filename!=""){
       /*  QFile file(filename);
         if(!file.open(QIODevice::WriteOnly)){
@@ -103,7 +103,7 @@ void MainWindow::path_click(){
 
 }
 
-void MainWindow::choose_file_click(){
+void MainWindow::choose_file_click(){ //сhoose 1 from
   //  ui->download->show();
   //  ui->groupBox_2->show();
 ui->download->setEnabled(true);
@@ -185,8 +185,8 @@ void MainWindow::go_click(){
 table.load_from_csv(file_name_load);
 table.opred_data_type();
 load_to_view();
-//table.out_to_sql(file_name_out,table_name_from);
-table.out_to_sql("/home/student/qt_project/convec/basa_sql_out",table_name_from);
+table.out_to_sql(file_name_out,table_name_from);
+//table.out_to_sql("/home/student/qt_project/convec/basa_sql_out",table_name_from);
         break;
 
     case -1: //in csv

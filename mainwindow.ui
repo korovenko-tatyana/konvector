@@ -60,7 +60,7 @@
      </rect>
     </property>
     <property name="title">
-     <string>Выбор входной файл</string>
+     <string>Выборите входной файл</string>
     </property>
     <widget class="QLineEdit" name="table_name">
      <property name="geometry">
