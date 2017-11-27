@@ -71,6 +71,9 @@ void out_to_sql(QString filename, QString table_name);
 int comparator(QSqlDatabase sd,QString table_name);
 
 void create_table(QString table_name);
+void load_from_sql1(QString filename, QString name_of_table);
+void output_in_sql1(QString filename, QString name_of_table);
+
 };
 
 #endif // BDDATA_H
