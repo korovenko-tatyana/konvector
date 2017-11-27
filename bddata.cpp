@@ -530,6 +530,18 @@ void BDData::output_in_sql1(QString filename, QString name_of_table)
         qDebug() << "Cannot open database:" + db.lastError().text();
         return;
     }
+    QSqlRecord columns = db.record(name_of_table);
+
+    if (!columns.isEmpty()) { //create table if not it
+        QSqlQuery query2;
+        if(!query2.exec( "DROP TABLE '" +name_of_table+"'") )
+        { //error of create
+            qDebug() << "DataBase: error of delete table" ;
+            qDebug() << query2.lastError().text();
+            return;
+        }
+        //delete
+    }
 
     QSqlQuery query;
     QString str;
