@@ -23,6 +23,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect (ui->go, SIGNAL(clicked(bool)), this, SLOT(go_click()));
     connect (ui->path, SIGNAL(clicked(bool)), this, SLOT(path_click()));
     connect (ui->download, SIGNAL(clicked(bool)), this, SLOT(download_click()));
+    ui->tableView->setModel(&table);
+    ui->tableView->resizeColumnsToContents();
+    ui->tableView->resizeRowsToContents();
     //BDData tab=new(BDData);
 }
 
@@ -138,7 +141,7 @@ void MainWindow::download_click(){
         case 1: //in sql
             if(file_name_load!=""){
                 table.load_from_csv(file_name_load);
-                load_to_view();
+            //    load_to_view();
 
                 //отобразить в модели
             }
@@ -151,8 +154,9 @@ void MainWindow::download_click(){
             table_name_from=  ui->table_name->text();
             // qDebug()<<table_name_from;
             if(table_name_from==""){QMessageBox::critical(this,tr("Error"),tr("Not a table name")); break;}
-            table.load_from_sql(file_name_load,table_name_from);
-            load_to_view();
+          //  table.load_from_sql(file_name_load,table_name_from);
+            table.load_from_sql1(file_name_load,table_name_from);
+        //    load_to_view();
 
             break;
         default:
@@ -178,13 +182,11 @@ void MainWindow::go_click(){
     case 1: //in sql
         //download from csv
 
-        //раскоментрировать
-
         table_name_from=  ui->table_name_out->text();
         if(table_name_from==""){QMessageBox::critical(this,tr("Error"),tr("Not a table name")); break;}
         table.load_from_csv(file_name_load);
         table.opred_data_type();
-        load_to_view();
+     //   load_to_view();
        // table.out_to_sql(file_name_out,table_name_from);
         table.output_in_sql1(file_name_out,table_name_from);
         //table.out_to_sql("/home/student/qt_project/convec/basa_sql_out",table_name_from);
@@ -195,7 +197,7 @@ void MainWindow::go_click(){
         if(table_name_from==""){QMessageBox::critical(this,tr("Error"),tr("Not a table name")); break;}
       //  table.load_from_sql(file_name_load, table_name_from);
         table.load_from_sql1(file_name_load, table_name_from);
-        load_to_view();
+      //  load_to_view();
         table.opred_data_type();
         table.output_in_csv(file_name_out);
         break;
@@ -215,7 +217,7 @@ table.out_to_sql(file_name_out,table_name_from);*/
 
 void MainWindow::load_to_view()
 {
-    model=new QStandardItemModel;
+  /*  model=new QStandardItemModel;
     QStringList hor_head;
     QList<QString> name_col=table.get_column_name();
     int cols=table.get_col(), rows=table.get_row();
@@ -237,5 +239,5 @@ void MainWindow::load_to_view()
         }
     ui->tableView->setModel(model);
     ui->tableView->resizeColumnsToContents();
-    ui->tableView->resizeRowsToContents();
+    ui->tableView->resizeRowsToContents();*/
 }

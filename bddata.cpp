@@ -24,6 +24,15 @@ QVariant BDData::data(const QModelIndex &index, int role) const
     if (!index.isValid()) return QVariant();
     if (role == Qt::DisplayRole) return data1.at(index).at(row);
     else return QVariant();*/
+    if (role == Qt::DisplayRole)
+        {
+            if (!index.isValid())
+                return QVariant();
+
+            return data1.at(index.row()).at(index.column());
+        }
+
+        return QVariant();
 
 }
 
@@ -39,6 +48,8 @@ int BDData::rowCount(const QModelIndex &parent) const
 int BDData::columnCount(const QModelIndex &parent) const
 {
     if (parent.isValid()) return 0;
+    if (rows == 0)
+                return 0;
     return cols;
     //  return 2;//column_name.count();
 }
@@ -65,7 +76,10 @@ QVariant BDData::headerData(int section, Qt::Orientation orientation, int role) 
 }
 
 void BDData::load_from_csv(QString file_name1){
-    if(cols!=0){ cols=0;rows=0; data1.clear();column_name.clear();type_data.clear();
+    if(cols!=0){
+        emit beginResetModel();
+        cols=0;rows=0; data1.clear();column_name.clear();type_data.clear();
+         emit endResetModel();
     }
     {
         //      file_name1="/home/student/qt_project/convec/basa.csv";
@@ -88,7 +102,8 @@ void BDData::load_from_csv(QString file_name1){
             //    qDebug()<<item<<cols;
         }
         emit endInsertColumns();
-        QTextStream stream(&file);
+
+     /*   QTextStream stream(&file);
         // количество строк.
       int rr=0;
         QString line;
@@ -97,9 +112,10 @@ void BDData::load_from_csv(QString file_name1){
              line = stream.readLine();
              // увеличим счетчик строк
              if(!line.isNull()) { rr++;}
-         } while (!line.isNull());
-    ;
-        emit beginInsertRows(QModelIndex(), 0, rr-2);
+         } while (!line.isNull());*/
+
+         emit beginResetModel();
+     //   emit beginInsertRows(QModelIndex(), 0, rr-2);
         while (!in.atEnd())
         {
             // ... построчно
@@ -120,7 +136,9 @@ void BDData::load_from_csv(QString file_name1){
             // csvModel->insertRow(csvModel->rowCount(), standardItemsList);
             rows++;
         }
-         emit endInsertRows();
+        // emit endInsertRows();
+         emit endResetModel();
+
         // for(int i=0;i<5;i++)   qDebug()<<column_name[i];
 
         //   qDebug()<<rows;
@@ -264,7 +282,9 @@ void BDData::load_from_sql(QString filename, QString table_name){
     }
 
     //clearTable();
-    if(cols!=0){ cols=0;rows=0; data1.clear();column_name.clear();type_data.clear();
+    if(cols!=0){ emit beginResetModel();
+        cols=0;rows=0; data1.clear();column_name.clear();type_data.clear();
+         emit endResetModel();
     }
 
     int j;
@@ -484,11 +504,9 @@ void BDData::load_from_sql1(QString filename, QString name_of_table)
         return;
     }
     if (cols != 0){
-       cols=0;
-       rows=0;
-       data1.clear();
-       column_name.clear();
-       type_data.clear();
+        emit beginResetModel();
+        cols=0;rows=0; data1.clear();column_name.clear();type_data.clear();
+         emit endResetModel();
      }
 
     beginInsertColumns(QModelIndex(), 0, rec.count()-1);
@@ -546,10 +564,10 @@ void BDData::output_in_sql1(QString filename, QString name_of_table)
     QSqlQuery query;
     QString str;
     str = "CREATE TABLE '" + name_of_table + "' ( '";
-    str += column_name[0] + "' VARCHAR(255) "+"PRIMARY KEY NOT NULL, '";
+    str += column_name[0]+"' " +type_data[0] /* "' VARCHAR(255) "*/ +" PRIMARY KEY NOT NULL, '";
     for (int j = 1; j < cols-1; j++)
-        str += column_name[j] + "' VARCHAR(255), '";
-    str += column_name[cols-1] + "' VARCHAR(255)" +" );";
+        str += column_name[j] +"' "+type_data[j]+", '";// "' VARCHAR(255), '";
+    str += column_name[cols-1] +"' "+type_data[cols-1]+" );";// "' VARCHAR(255)" +" );";
     qDebug() << str;
     if (!query.exec(str)) {
         qDebug() << "Unable to create a table " + query.lastError().text();
