@@ -149,10 +149,7 @@ void BDData::load_from_csv(QString file_name1){
 
 void BDData::output_in_csv(QString filename){
     if(cols==0){qDebug()<<"No data in prog";}
-    /* QString name="";
-    for (int i=0;i<cols;i++)
-    name+=column_name[i];*/
-    // filename="/home/student/qt_project/convec/basa_out.csv"; //delete
+  //  opred_data_type();
     QFile file(filename);
     if (file.open(QIODevice::WriteOnly))
     {
@@ -560,7 +557,7 @@ void BDData::output_in_sql1(QString filename, QString name_of_table)
         }
         //delete
     }
-
+opred_data_type();
     QSqlQuery query;
     QString str;
     str = "CREATE TABLE '" + name_of_table + "' ( '";
