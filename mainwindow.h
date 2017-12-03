@@ -34,10 +34,7 @@ public:
     ~MainWindow();
 int get_napr();
 //QString get_file_name();
-/**
- * @brief load_to_view вывод таблицы на экран
- */
-void load_to_view();
+
 
 private slots:
 
@@ -63,6 +60,8 @@ void path_click();
  * @brief download_click для отображение таблицы на экран без конвертации
  */
 void download_click();
+
+void set_table_name_in();
 
 };
 
