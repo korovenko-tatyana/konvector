@@ -76,10 +76,11 @@ QVariant BDData::headerData(int section, Qt::Orientation orientation, int role) 
 }
 
 void BDData::load_from_csv(QString file_name1){
+   emit beginResetModel();
     if(cols!=0){
-        emit beginResetModel();
+     //   emit beginResetModel();
         cols=0;rows=0; data1.clear();column_name.clear();type_data.clear();
-         emit endResetModel();
+
     }
     {
         //      file_name1="/home/student/qt_project/convec/basa.csv";
@@ -93,15 +94,15 @@ void BDData::load_from_csv(QString file_name1){
         }
         QTextStream in(&file);
         QString col_name= in.readLine();
-        int cc=col_name.count(";")+1;
-        emit beginInsertColumns(QModelIndex(), 0, cc-1);
+     /*   int cc=col_name.count(";")+1;*/
+      //  emit beginInsertColumns(QModelIndex(), 0, cc-1);
         for (QString item : col_name.split(";")) {
             column_name.append(item);
 
             cols++;
             //    qDebug()<<item<<cols;
         }
-        emit endInsertColumns();
+    //    emit endInsertColumns();
 
      /*   QTextStream stream(&file);
         // количество строк.
@@ -114,7 +115,7 @@ void BDData::load_from_csv(QString file_name1){
              if(!line.isNull()) { rr++;}
          } while (!line.isNull());*/
 
-         emit beginResetModel();
+      //   emit beginResetModel();
      //   emit beginInsertRows(QModelIndex(), 0, rr-2);
         while (!in.atEnd())
         {
@@ -144,7 +145,6 @@ void BDData::load_from_csv(QString file_name1){
         //   qDebug()<<rows;
         file.close();
     }
-    // else qDebug()<<"also data is in prog";
 }
 
 void BDData::output_in_csv(QString filename){
