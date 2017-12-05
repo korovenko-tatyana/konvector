@@ -9,7 +9,9 @@
 #include <QtSql>
 #include <QSqlRecord>
 #include <QFile>
-
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QSqlDatabase>
 /*BDData::BDData()
 {
 
@@ -488,6 +490,118 @@ int BDData::comparator(QSqlDatabase sdb,QString table_name)
 
 void BDData::load_from_sql1(QString filename, QString name_of_table)
 {
+
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName(filename);
+    if( !db.open() ) {
+        qDebug() <<  "Cannot open database:" << db.lastError().text();
+        return;
+    }
+    QSqlRecord rec = db.record(name_of_table);
+    if (rec.isEmpty())
+    {
+        qDebug() << "Cannot found table" + name_of_table;
+        return;
+    }
+    if (cols != 0){
+       cols=0;
+       rows=0;
+       data1.clear();
+       column_name.clear();
+       type_data.clear();
+     }
+
+    beginInsertColumns(QModelIndex(), 0, rec.count()-1);
+    for(int j = 0; j < rec.count(); j++)
+    column_name.append(rec.fieldName(j));
+    endInsertColumns();
+    cols = rec.count();
+
+    QList<QString> temp;
+    QSqlQuery countRows;
+    countRows.exec("SELECT count(*) FROM " + name_of_table);
+    countRows.last();
+    qDebug() << countRows.value(countRows.at()).toString();
+    rows = countRows.value(countRows.at()).toInt();
+    cout << rows;
+    QSqlQuery query("SELECT * FROM " + name_of_table);
+
+    emit beginInsertRows(QModelIndex(), 0, rows-1);
+    while (query.next())
+    {
+        for (int j = 0; j < cols; j++)
+              temp.append(query.value(j).toString());
+              data1.append(temp);
+              temp.clear();
+     }
+     emit endInsertRows();
+
+     db.close();
+     return ;
+}
+
+void BDData::output_in_sql1(QString filename, QString name_of_table)
+{
+    opred_data_type();
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName(filename);
+    if (!db.open())
+    {
+        qDebug() << "Cannot open database:" + db.lastError().text();
+        return;
+    }
+    //PRIMARY KEY NOT NULL
+    QSqlQuery queru;
+    QString str;
+    str = "CREATE TABLE "+ name_of_table + "( ";
+    str += "\'" + column_name[0] + "\' " + type_data[0] +" , ";
+    for (int j = 1; j < cols-1; j++)
+        str += "\'" + column_name[j] + "\' " + type_data[j]+", ";
+    str += "\'" + column_name[cols-1] + "\' " + type_data[cols-1] +" );";
+    qDebug() << str;
+    if (!queru.exec(str)) {
+        qDebug() << "Unable to create a table";
+    }
+
+    QSqlQuery query;
+    QString strt;
+    for (int i = 0; i < rows; i++)
+    {
+    db.transaction();
+    strt = "INSERT INTO " + name_of_table+" (";
+    for (int j = 0; j < cols-1; j++)
+        strt += "\'" + column_name[j] + "\'" + ", ";
+    strt += "\'" + column_name[cols-1] + "\'" + ")" + " VALUES (";
+
+    if(type_data[0]=="TEXT")
+        strt += "'" + data1[i][0] + "'" + ", ";
+    else
+        strt += data1[i][0] + ", ";
+    //strt += "'" + data1[i][0] + "'" + ", ";
+    for (int j = 1; j < cols-1; j++){
+        if(type_data[j]=="TEXT")
+        //if (data1[i][j] != "")
+            strt += "'" + data1[i][j] + "'" + ", ";
+        else
+            strt = strt  + data1[i][j]  + ", ";
+    }
+        //qDebug() << data1[i][j] <<" , ";}
+    if(type_data[cols-1]=="TEXT")
+        strt += "'" + data1[i][cols-1]+ "'" + ");";
+    else
+        strt +=data1[i][cols-1] + ");";
+    qDebug() << strt;
+    if (!query.exec(strt)) {
+        qDebug() << "Unable to do insert operation";
+    }
+    db.commit();
+    }
+
+    db.close();
+}
+
+void BDData::load_from_sql2(QString filename, QString name_of_table)
+{
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(filename);
     if( !db.open() ) {
@@ -535,7 +649,7 @@ qDebug()<<cols;
      return ;
 }
 
-void BDData::output_in_sql1(QString filename, QString name_of_table)
+void BDData::output_in_sql2(QString filename, QString name_of_table)
 {
     if (!QFile::exists(filename)){qDebug()<<"not a database file"; return;}
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
