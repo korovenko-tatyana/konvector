@@ -55,7 +55,8 @@ QList<QString> get_column_name();
 QList<QList<QString>> get_data();
 int get_row();
 int get_col();
-
+void CSVRead(QString _file);
+bool writeFromModelToCsv();
 /**
  * @brief load_from_sql
  * @param filename путь к файлу
@@ -71,9 +72,22 @@ void out_to_sql(QString filename, QString table_name);
 int comparator(QSqlDatabase sd,QString table_name);
 
 void create_table(QString table_name);
+/**
+ * @brief load_from_sql1
+ * @param filename
+ * @param name_of_table
+ */
 void load_from_sql1(QString filename, QString name_of_table);
+/**
+ * @brief output_in_sql1
+ * @param filename
+ * @param name_of_table
+ */
 void output_in_sql1(QString filename, QString name_of_table);
 
+
+void output_in_sql2(QString filename, QString name_of_table);
+void load_from_sql2(QString filename, QString name_of_table);
 };
 
 #endif // BDDATA_H

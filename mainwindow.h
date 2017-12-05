@@ -56,11 +56,11 @@ void go_click();
  * @brief path_click нажатие на выбор файла для сохранения
  */
 void path_click();
-/**
- * @brief download_click для отображение таблицы на экран без конвертации
- */
-void download_click();
 
+//void download_click();
+/**
+ * @brief set_table_name_in слот для принятия сигнала об вводе/изменении имна таблицы
+ */
 void set_table_name_in();
 
 };

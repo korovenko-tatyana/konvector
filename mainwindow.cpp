@@ -126,22 +126,19 @@ void MainWindow::choose_file_click(){ //сhoose 1 from
     switch (napr) {
     case 1: //from csv
         if(file_name_load!=""){
-            table.load_from_csv(file_name_load);
-            //отобразить в модели
+           // table.load_from_csv(file_name_load);
+            table.CSVRead(filename);
         }
         else  QMessageBox::critical(this,tr("Error"),tr("Not a file name to open"));
         break;
     case -1:
         //download from sql
-     //   table_name_from=  ui->table_name->text();
         if(table_name_from=="")
         {QMessageBox::critical(this,tr("Error"),tr("Not a table name")); break;}
         else{
             table.load_from_sql1(file_name_load,table_name_from);
-
         }
       //  table.load_from_sql(file_name_load,table_name_from);
-
         break;
     default:
         QMessageBox::critical(this,tr("Error"),tr("Not a napravlenie convertachii"));
@@ -196,7 +193,7 @@ void MainWindow::go_click(){
         //download from csv
         table_name_from=  ui->table_name_out->text();
         if(table_name_from==""){QMessageBox::critical(this,tr("Error"),tr("Not a table name")); break;}
-        table.load_from_csv(file_name_load);;
+      //  table.load_from_csv(file_name_load);;
        // table.out_to_sql(file_name_out,table_name_from);
         table.output_in_sql1(file_name_out,table_name_from);
         //table.out_to_sql("/home/student/qt_project/convec/basa_sql_out",table_name_from);
@@ -206,7 +203,7 @@ void MainWindow::go_click(){
         table_name_from=  ui->table_name->text();
         if(table_name_from==""){QMessageBox::critical(this,tr("Error"),tr("Not a table name")); break;}
       //  table.load_from_sql(file_name_load, table_name_from);
-        table.load_from_sql1(file_name_load, table_name_from);
+     //   table.load_from_sql1(file_name_load, table_name_from);
         table.output_in_csv(file_name_out);
         break;
     default:
