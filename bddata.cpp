@@ -554,8 +554,8 @@ void BDData::output_in_sql1(QString filename, QString name_of_table)
     QSqlQuery queru;
     QString str;
     str = "CREATE TABLE "+ name_of_table + "( ";
-    str += "\'" + column_name[0] + "\' " + type_data[0] +" , ";
-    for (int j = 1; j < cols-1; j++)
+
+    for (int j = 0; j < cols-1; j++)
         str += "\'" + column_name[j] + "\' " + type_data[j]+", ";
     str += "\'" + column_name[cols-1] + "\' " + type_data[cols-1] +" );";
     qDebug() << str;
@@ -572,20 +572,12 @@ void BDData::output_in_sql1(QString filename, QString name_of_table)
     for (int j = 0; j < cols-1; j++)
         strt += "\'" + column_name[j] + "\'" + ", ";
     strt += "\'" + column_name[cols-1] + "\'" + ")" + " VALUES (";
-
-    if(type_data[0]=="TEXT")
-        strt += "'" + data1[i][0] + "'" + ", ";
-    else
-        strt += data1[i][0] + ", ";
-    //strt += "'" + data1[i][0] + "'" + ", ";
-    for (int j = 1; j < cols-1; j++){
-        if(type_data[j]=="TEXT")
-        //if (data1[i][j] != "")
+    for (int j = 0; j < cols-1; j++){
+        if(type_data[j]=="TEXT")        
             strt += "'" + data1[i][j] + "'" + ", ";
         else
             strt = strt  + data1[i][j]  + ", ";
     }
-        //qDebug() << data1[i][j] <<" , ";}
     if(type_data[cols-1]=="TEXT")
         strt += "'" + data1[i][cols-1]+ "'" + ");";
     else
