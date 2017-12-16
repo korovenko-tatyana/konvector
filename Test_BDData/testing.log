@@ -1,0 +1,14 @@
+********* Start testing of Test_BDData *********
+Config: Using QtTest library 5.8.0, Qt 5.8.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 5.3.1 20160406 (Red Hat 5.3.1-6))
+PASS   : Test_BDData::initTestCase()
+QDEBUG : Test_BDData::readCSV() ("1", "2", "Text2", "3", "real")
+QDEBUG : Test_BDData::readCSV() ("19", "Мышка", "А правильней использовать; \"Ёлочки\"", "Ct;rl", "4.9")
+QDEBUG : Test_BDData::readCSV() ("INTEGER", "TEXT", "TEXT", "TEXT", "REAL")
+PASS   : Test_BDData::readCSV()
+QDEBUG : Test_BDData::writeCSV() ("1", "2", "Text2", "3", "real")
+QDEBUG : Test_BDData::writeCSV() ("19", "Мышка", "А правильней использовать; \"Ёлочки\"", "Ct;rl", "4.9")
+QDEBUG : Test_BDData::writeCSV() ("INTEGER", "TEXT", "TEXT", "TEXT", "REAL")
+PASS   : Test_BDData::writeCSV()
+PASS   : Test_BDData::cleanupTestCase()
+Totals: 4 passed, 0 failed, 0 skipped, 0 blacklisted, 3ms
+********* Finished testing of Test_BDData *********

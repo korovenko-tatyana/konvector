@@ -19,7 +19,12 @@ class BDData :public QAbstractTableModel// public QAbctractTableModel {
     Q_OBJECT
 public:
     //    BDData();
+    /**
+     * @brief BDData
+     * @param parent
+     */
     BDData(QObject *parent = nullptr);
+    BDData( QList<QString> column_name, QList<QString> data_type,  QList<QList<QString>> d);
     virtual int rowCount(const QModelIndex &parent) const override;
     virtual int columnCount(const QModelIndex &parent) const override;
     virtual QVariant data(const QModelIndex &index, int role) const override;
@@ -35,6 +40,13 @@ private:
     int cols=0,rows=0;
 
 public:
+    /**
+  * @brief operator ==
+  * @param left
+  * @param right
+  * @return
+  */
+ friend bool operator ==(const BDData& left, const BDData & right);
 
     /**
  * @brief output_in_csv выгрузка данных в файл формата csv

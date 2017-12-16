@@ -17,6 +17,15 @@ BDData::BDData(QObject *parent): QAbstractTableModel(parent)
 {
 
 }
+BDData::BDData(QList<QString> column_name1, QList<QString> data_type1,
+               QList<QList<QString>> d){
+    this->column_name=column_name1;
+   this-> type_data=data_type1;
+   this->data1=d;
+this->cols=column_name1.count();
+    this->rows=data1.count();
+}
+
 QVariant BDData::data(const QModelIndex &index, int role) const
 {
     if (role == Qt::DisplayRole)
@@ -138,6 +147,7 @@ void BDData::CSVRead(QString _file)
     }
     file.close();
     emit endResetModel();
+    //rows--;
 }
 
 QString get_elem(QString elem){
@@ -158,7 +168,7 @@ QString get_elem(QString elem){
 }
 
 void BDData::output_in_csv(QString filename){
-    if(cols==0){qDebug()<<"No data in prog";}
+    if(data1.empty()){qDebug()<<"No data in prog";}
     //  opred_data_type();
     QFile file(filename);
     if (file.open(QIODevice::WriteOnly))
@@ -185,31 +195,13 @@ void BDData::output_in_csv(QString filename){
 
 void BDData::opred_data_type() //INTEGER -> REAL -> TEXT
 {
-    QList <QString>temp,d;bool qw[cols];
+    QList <QString>temp;bool qw[cols];
     for (int i=0;i<cols;i++){
         temp.append("TEXT");
         type_data.append("INTEGER");
         qw[i]=false;
     }
-    /* for (int i=0;i<rows;i++)
-        for(int j=0;j<cols;j++)
-        {
-            d.clear();
-            d=data1[i];
-            bool flag;
-            d[j].toInt(&flag);
-            if(flag) temp[j]="INTEGER";
-            else {
-                d[j].toDouble(&flag);
-                if(flag) {temp[j]="REAL";qw[j]=true;}
-                else {temp[j]="TEXT"; type_data[j]="TEXT";}
-            }
-            for(int i=0;i<cols;i++)
-            {
-                if(qw[i] &&(type_data[i]!="TEXT")) type_data[i]="REAL";
-                // else if(type_data[i]!="TEXT") type_data[i]="INTEGER";
-            }
-        }*/
+
     for (int j=0;j<cols;j++)
         for (int i=0;i<rows;i++)
         {
@@ -356,3 +348,37 @@ void BDData::output_in_sql1(QString filename, QString name_of_table)
 }
 
 
+bool operator ==(const BDData& left, const BDData & right){
+        QList<QString> names,names2;
+        names = left.column_name;//getColumnNames();
+        names2 = right.column_name;//getColumnNames();
+        if(names.length()!=names2.length())
+                return false;
+        for(int i=0;i<names.length();i++){
+            if(names[i]!=names2[i])
+                return false;
+        }
+        QList<QString> types,types2;
+        types=left.type_data;
+        types2=right.type_data;
+        if(types.length()!=types2.length())
+                return false;
+        for(int i=0;i<types.length();i++){
+            if(types[i]!=types2[i])
+                return false;
+        }
+        QList<QList<QString>> data,data2;
+        data=left.data1;
+        data2=right.data1;
+        if(data.length()!=data2.length())
+            return false;
+        for(int i =0;i<data.length();i++){
+            if(data[i].length()!=data2[i].length())
+                return false;
+            for(int j=0;j<data[i].length();j++){
+                if(data[i][j]!=data2[i][j])
+                    return false;
+            }
+        }
+        return true;
+    }
