@@ -13,7 +13,7 @@
 /**
  * @brief The BDData class
  */
-class BDData :public QAbstractTableModel// public QAbctractTableModel {
+class BDData :public QAbstractTableModel
 
 {
     Q_OBJECT

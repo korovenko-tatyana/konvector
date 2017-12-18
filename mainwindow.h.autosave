@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-//#include "tabledata.h"
 #include <QString>
 #include <bddata.h>
 #include <QStandardItem>
