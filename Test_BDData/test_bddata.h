@@ -20,6 +20,7 @@ private slots:
     void readCSV();
   //  void opred_data();
     void writeCSV();
+    void main_test();
 };
 
 #endif // TEST_BDDATA_H

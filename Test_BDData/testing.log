@@ -9,6 +9,42 @@ QDEBUG : Test_BDData::writeCSV() ("1", "2", "Text2", "3", "real")
 QDEBUG : Test_BDData::writeCSV() ("19", "Мышка", "А правильней использовать; \"Ёлочки\"", "Ct;rl", "4.9")
 QDEBUG : Test_BDData::writeCSV() ("INTEGER", "TEXT", "TEXT", "TEXT", "REAL")
 PASS   : Test_BDData::writeCSV()
+QDEBUG : Test_BDData::main_test() ("Year", "Text", "Text2", "Text3", "Number")
+QDEBUG : Test_BDData::main_test() ("1965", "Пиксель", "E240 – формальдегид (опасный консервант)!", "красный, зелёный, битый", "3000")
+QDEBUG : Test_BDData::main_test() ("1965", "Мышка", "А правильней использовать \"Ёлочки\"", "", "4900")
+QDEBUG : Test_BDData::main_test() ("Н/д", "Кнопка", "Сочетания клавиш", "MUST USE! Ctrl, Alt, Shift", "4799")
+QDEBUG : Test_BDData::main_test() ("Year", "Text", "Text2", "Text3", "Number")
+QDEBUG : Test_BDData::main_test() ("1965", "Пиксель", "E240 – формальдегид (опасный консервант)!", "красный, зелёный, битый", "3000")
+QDEBUG : Test_BDData::main_test() ("1965", "Мышка", "А правильней использовать \"Ёлочки\"", "", "4900")
+QDEBUG : Test_BDData::main_test() ("Н/д", "Кнопка", "Сочетания клавиш", "MUST USE! Ctrl, Alt, Shift", "4799")
+QDEBUG : Test_BDData::main_test() ("TEXT", "TEXT", "TEXT", "TEXT", "INTEGER")
+QDEBUG : Test_BDData::main_test() "CREATE TABLE test_table( 'Year' TEXT , 'Text' TEXT, 'Text2' TEXT, 'Text3' TEXT, 'Number' INTEGER );"
+QDEBUG : Test_BDData::main_test() "INSERT INTO test_table ('Year', 'Text', 'Text2', 'Text3', 'Number') VALUES ('1965', 'Пиксель', 'E240 – формальдегид (опасный консервант)!', 'красный, зелёный, битый', 3000);"
+QDEBUG : Test_BDData::main_test() "INSERT INTO test_table ('Year', 'Text', 'Text2', 'Text3', 'Number') VALUES ('1965', 'Мышка', 'А правильней использовать \"Ёлочки\"', '', 4900);"
+QDEBUG : Test_BDData::main_test() "INSERT INTO test_table ('Year', 'Text', 'Text2', 'Text3', 'Number') VALUES ('Н/д', 'Кнопка', 'Сочетания клавиш', 'MUST USE! Ctrl, Alt, Shift', 4799);"
+QWARN  : Test_BDData::main_test() QSqlDatabasePrivate::addDatabase: duplicate connection name 'qt_sql_default_connection', old connection removed.
+QDEBUG : Test_BDData::main_test() "3"
+QDEBUG : Test_BDData::main_test() ("Year", "Text", "Text2", "Text3", "Number")
+QDEBUG : Test_BDData::main_test() ("1965", "Пиксель", "E240 – формальдегид (опасный консервант)!", "красный, зелёный, битый", "3000")
+QDEBUG : Test_BDData::main_test() ("1965", "Мышка", "А правильней использовать \"Ёлочки\"", "", "4900")
+QDEBUG : Test_BDData::main_test() ("Н/д", "Кнопка", "Сочетания клавиш", "MUST USE! Ctrl, Alt, Shift", "4799")
+QWARN  : Test_BDData::main_test() QSqlDatabasePrivate::addDatabase: duplicate connection name 'qt_sql_default_connection', old connection removed.
+QDEBUG : Test_BDData::main_test() "3"
+QWARN  : Test_BDData::main_test() QSqlDatabasePrivate::addDatabase: duplicate connection name 'qt_sql_default_connection', old connection removed.
+QDEBUG : Test_BDData::main_test() "3"
+QDEBUG : Test_BDData::main_test() ("Year", "Text", "Text2", "Text3", "Number")
+QDEBUG : Test_BDData::main_test() ("1965", "Пиксель", "E240 – формальдегид (опасный консервант)!", "красный, зелёный, битый", "3000")
+QDEBUG : Test_BDData::main_test() ("1965", "Мышка", "А правильней использовать \"Ёлочки\"", "", "4900")
+QDEBUG : Test_BDData::main_test() ("Н/д", "Кнопка", "Сочетания клавиш", "MUST USE! Ctrl, Alt, Shift", "4799")
+QDEBUG : Test_BDData::main_test() ("TEXT", "TEXT", "TEXT", "TEXT", "INTEGER")
+QWARN  : Test_BDData::main_test() QSqlDatabasePrivate::addDatabase: duplicate connection name 'qt_sql_default_connection', old connection removed.
+QDEBUG : Test_BDData::main_test() "CREATE TABLE test_table( 'Year' TEXT , 'Text' TEXT, 'Text2' TEXT, 'Text3' TEXT, 'Number' INTEGER );"
+QDEBUG : Test_BDData::main_test() "INSERT INTO test_table ('Year', 'Text', 'Text2', 'Text3', 'Number') VALUES ('1965', 'Пиксель', 'E240 – формальдегид (опасный консервант)!', 'красный, зелёный, битый', 3000);"
+QDEBUG : Test_BDData::main_test() "INSERT INTO test_table ('Year', 'Text', 'Text2', 'Text3', 'Number') VALUES ('1965', 'Мышка', 'А правильней использовать \"Ёлочки\"', '', 4900);"
+QDEBUG : Test_BDData::main_test() "INSERT INTO test_table ('Year', 'Text', 'Text2', 'Text3', 'Number') VALUES ('Н/д', 'Кнопка', 'Сочетания клавиш', 'MUST USE! Ctrl, Alt, Shift', 4799);"
+QWARN  : Test_BDData::main_test() QSqlDatabasePrivate::addDatabase: duplicate connection name 'qt_sql_default_connection', old connection removed.
+QDEBUG : Test_BDData::main_test() "3"
+PASS   : Test_BDData::main_test()
 PASS   : Test_BDData::cleanupTestCase()
-Totals: 4 passed, 0 failed, 0 skipped, 0 blacklisted, 3ms
+Totals: 5 passed, 0 failed, 0 skipped, 0 blacklisted, 33ms
 ********* Finished testing of Test_BDData *********

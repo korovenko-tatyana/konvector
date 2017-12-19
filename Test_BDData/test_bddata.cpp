@@ -37,6 +37,27 @@ void Test_BDData::writeCSV(){
      QCOMPARE(tab, test_tab);
 }
 
-//Test_BDData::oped_data(){
+void Test_BDData::main_test(){
+    //from csv
+    QDir dir;
+      QString fileName = dir.absoluteFilePath("basa.csv");
+       QString fileName1 = dir.absoluteFilePath("basa.db");
+     BDData tab,tab_csv,tab1;
+     tab_csv.CSVRead(fileName);
+     tab.CSVRead(fileName);
+     tab_csv.output_in_sql1(fileName1,"test_table");
+     tab_csv.load_from_sql1(fileName1,"test_table");
+     tab_csv.output_in_csv(fileName);
+     tab_csv.CSVRead(fileName);
 
-//}
+     QCOMPARE(tab, tab_csv);
+     fileName = dir.absoluteFilePath("basa1.csv");
+QString table="test_table";
+     tab.load_from_sql1(fileName1,table);
+     tab1.load_from_sql1(fileName1,table);
+     tab1.output_in_csv(fileName);
+     tab1.CSVRead(fileName);
+     tab1.output_in_sql1(fileName1,table);
+     tab1.load_from_sql1(fileName1,table);
+      QCOMPARE(tab, tab1);
+}
