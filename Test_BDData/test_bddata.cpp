@@ -19,6 +19,19 @@ void Test_BDData::readCSV(){
      QCOMPARE(tab, test_tab);
 }
 
+void Test_BDData::readSQL(){
+    QDir dir;
+      QString fileName = dir.absoluteFilePath("test.sql");
+      QString tableName = "test";
+      BDData tab;
+      QList<QString> col_name={"Name","Number","Street","1991","2017"};
+    QList<QList<QString>> d;
+    d.push_back({"Tomas","1734275","Street \"Nussknacker\"","","60.9"});
+     QList<QString> types={"TEXT","INTEGER","TEXT","TEXT","REAL"};
+     BDData test_tab(col_name,types,d);
+     tab.load_from_sql1(fileName,tableName);
+     QCOMPARE(tab, test_tab);
+}
 
 void Test_BDData::writeCSV(){
     QDir dir;
@@ -34,6 +47,23 @@ void Test_BDData::writeCSV(){
      tab.output_in_csv(fileName1);
      tab.CSVRead(fileName1);
      tab.opred_data_type();
+     QCOMPARE(tab, test_tab);
+}
+
+void Test_BDData::writeSQL(){
+    QDir dir;
+       QString fileName1 = dir.absoluteFilePath("testout.sql");
+       QString tableName = "test";
+     QList<QString> col_name={"Name","Number","Street","1991","2017"};
+     QList<QList<QString>> d;
+     d.push_back({"Tomas","1734275","Street \"Nussknacker\"","","60.9"});
+     QList<QString> types={"TEXT","INTEGER","TEXT","TEXT","REAL"};
+
+     BDData test_tab(col_name,types,d);
+     BDData tab(col_name,types,d);
+
+     tab.output_in_sql1(fileName1,tableName);
+     tab.load_from_sql1(fileName1,tableName);
      QCOMPARE(tab, test_tab);
 }
 
