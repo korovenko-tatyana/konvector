@@ -226,9 +226,13 @@ void BDData::opred_data_type() //INTEGER -> REAL -> TEXT
 
 void BDData::load_from_sql1(QString filename, QString name_of_table)
 {
-
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(filename);
+    QSqlDatabase db;
+    if(QSqlDatabase::contains(QSqlDatabase::defaultConnection)) {
+            db = QSqlDatabase::database();
+        } else {
+            db = QSqlDatabase::addDatabase("QSQLITE");
+            db.setDatabaseName(filename);
+        }
     if( !db.open() ) {
         qDebug() <<  "Cannot open database:" << db.lastError().text();
         return;
@@ -279,8 +283,14 @@ void BDData::load_from_sql1(QString filename, QString name_of_table)
 void BDData::output_in_sql1(QString filename, QString name_of_table)
 {
     opred_data_type();
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(filename);
+  
+    QSqlDatabase db;
+    if(QSqlDatabase::contains(QSqlDatabase::defaultConnection)) {
+            db = QSqlDatabase::database();
+        } else {
+            db = QSqlDatabase::addDatabase("QSQLITE");
+            db.setDatabaseName(filename);
+        }
     if (!db.open())
     {
         qDebug() << "Cannot open database:" + db.lastError().text();
