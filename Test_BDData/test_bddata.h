@@ -19,7 +19,9 @@ public slots:
 private slots:
     void readCSV();
   //  void opred_data();
+    void readSQL();
     void writeCSV();
+    void writeSQL();
     void main_test();
 };
 
